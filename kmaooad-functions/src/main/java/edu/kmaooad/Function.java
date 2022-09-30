@@ -1,5 +1,6 @@
 package edu.kmaooad;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.HttpMethod;
 import com.microsoft.azure.functions.HttpRequestMessage;
@@ -29,12 +30,17 @@ public class Function {
             final ExecutionContext context) {
         context.getLogger().info("Java HTTP trigger processed a request.");
 
-        final String name = request.getBody().orElse(null);
+        final String body = request.getBody().orElse(null);
 
-        if (name == null) {
+        if (body == null) {
             return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a name in the request body").build();
-        } else {
-            return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + name).build();
         }
+
+        BotRequest botRequest = new BotRequestMapper(new ObjectMapper()).mapFrom(body);
+
+        long messageId = botRequest.getMessage().getMessage_id();
+
+        return request.createResponseBuilder(HttpStatus.OK).body("message_id :  " + messageId).build();
+
     }
 }
