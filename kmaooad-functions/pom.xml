@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
         <azure.functions.maven.plugin.version>1.20.0</azure.functions.maven.plugin.version>
         <azure.functions.java.library.version>2.0.1</azure.functions.java.library.version>
         <functionAppName>kmaooad-functions-20220927162321908</functionAppName>
@@ -75,7 +75,7 @@
                     <runtime>
                         <!-- runtime os, could be windows, linux or docker-->
                         <os>windows</os>
-                        <javaVersion>11</javaVersion>
+                        <javaVersion>8</javaVersion>
                     </runtime>
                     <appSettings>
                         <property>
