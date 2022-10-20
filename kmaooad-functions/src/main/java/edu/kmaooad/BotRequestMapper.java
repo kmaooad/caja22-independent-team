@@ -2,7 +2,6 @@ package edu.kmaooad;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 public class BotRequestMapper {
