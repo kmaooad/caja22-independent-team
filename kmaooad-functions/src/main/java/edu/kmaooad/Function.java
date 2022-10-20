@@ -9,6 +9,11 @@ import com.microsoft.azure.functions.HttpStatus;
 import com.microsoft.azure.functions.annotation.AuthorizationLevel;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import com.microsoft.azure.functions.annotation.HttpTrigger;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 
 import java.util.Optional;
 
@@ -39,6 +44,16 @@ public class Function {
         BotRequest botRequest = new BotRequestMapper(new ObjectMapper()).mapFrom(body);
 
         long messageId = botRequest.getMessage().getMessage_id();
+
+        String uri = "mongodb+srv://IndependentTeam:5UF2n0PnsIjaxYLN@cluster0.50iuewp.mongodb.net/?retryWrites=true&w=majority";
+
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            MongoDatabase database = mongoClient.getDatabase("independentDB");
+            MongoCollection<Document> collection = database.getCollection("independentCollection");
+
+            Document doc = Document.parse(body);
+            collection.insertOne(doc);
+        }
 
         return request.createResponseBuilder(HttpStatus.OK).body("message_id :  " + messageId).build();
 
