@@ -99,4 +99,30 @@ class BotRequestMapperTest {
 
         assertEquals(expectedMessage, mapper.deserialize(mappedRequest));
     }
+    @Test
+    void mapFromTestWithoutID() {
+        String testJson = "{\"update_id\":805877849,\n" +
+                " \"message\":{\n" +
+                "\t\"text\":\"bot\"\n" +
+                "\t}\n" +
+                "}";
+
+        BotRequest mappedRequest = mapper.mapFrom(testJson);
+
+        assertEquals(0, mappedRequest.getMessage().getMessage_id());
+        assertEquals("bot", mappedRequest.getMessage().getText());
+    }
+    @Test
+    void mapFromTestWithoutText() {
+        String testJson = "{\"update_id\":805877849,\n" +
+                " \"message\":{\n" +
+                "\t\"message_id\":4\n" +
+                "\t}\n" +
+                "}";
+
+        BotRequest mappedRequest = mapper.mapFrom(testJson);
+
+        assertEquals(4L, mappedRequest.getMessage().getMessage_id());
+        assertNull(mappedRequest.getMessage().getText());
+    }
 }
