@@ -19,7 +19,7 @@ class MessageTest {
 
     @Test
     void setMessage_idTest() {
-        Message message2 = new Message(message.getMessage_id(),message.getText());
+        Message message2 = new Message(message.getMessage_id(), message.getText());
         message2.setMessage_id(5L);
 
         assertEquals(5L, message2.getMessage_id());
@@ -28,7 +28,7 @@ class MessageTest {
 
     @Test
     void setTextTest() {
-        Message message2 = new Message(message.getMessage_id(),message.getText());
+        Message message2 = new Message(message.getMessage_id(), message.getText());
         message2.setText("Bot2");
 
         assertEquals("Bot2", message2.getText());
@@ -37,7 +37,7 @@ class MessageTest {
 
     @Test
     void testEqualsTest() {
-        Message message2 = new Message(message.getMessage_id(),message.getText());
+        Message message2 = new Message(message.getMessage_id(), message.getText());
         assertEquals(message2, message);
         assertTrue(message2.equals(message));
         message2.setText("NOT BOT");
