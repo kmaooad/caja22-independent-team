@@ -63,4 +63,15 @@ class BotRequestMapperTest {
         assertEquals(4L, mappedRequest.getMessage().getMessage_id());
         assertNull(mappedRequest.getMessage().getText());
     }
+
+    @Test
+    void deserializeToTest() {
+        String expectedMessage = "{\"update_id\":1,\"message\":{\"message_id\":1," +
+                "\"text\":\"bot\"}}";
+
+        Message message = new Message(1, "bot");
+        BotRequest mappedRequest = new BotRequest(1, message);
+
+        assertEquals(expectedMessage, mapper.deserialize(mappedRequest));
+    }
 }

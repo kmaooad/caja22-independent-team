@@ -1,13 +1,16 @@
 package edu.kmaooad;
 
-import com.microsoft.azure.functions.*;
-import org.mockito.stubbing.Answer;
-
-import java.util.*;
-import java.util.logging.Logger;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.function.context.test.FunctionalSpringBootTest;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Mono;
+
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -15,79 +18,62 @@ import static org.mockito.Mockito.*;
 /**
  * Unit test for Function class.
  */
+@FunctionalSpringBootTest
+@AutoConfigureWebTestClient
 public class FunctionTest {
+    @Autowired
+    private WebTestClient client;
 
-    private static final String BAD_RESPONSE_BODY = "Request body error. Please fix your request body";
-
-    private HttpRequestMessage<Optional<String>> getReq(Optional<String> queryBody) {
-        // Setup
-        @SuppressWarnings("unchecked")
-        final HttpRequestMessage<Optional<String>> req = mock(HttpRequestMessage.class);
-
-        doReturn(queryBody).when(req).getBody();
-
-        doAnswer((Answer<HttpResponseMessage.Builder>) invocation -> {
-            HttpStatus status = (HttpStatus) invocation.getArguments()[0];
-            return new HttpResponseMessageMock.HttpResponseMessageBuilderMock().status(status);
-        }).when(req).createResponseBuilder(any(HttpStatus.class));
-
-        return req;
-    }
-
-    private ExecutionContext getContext() {
-        // Setup
-        final ExecutionContext context = mock(ExecutionContext.class);
-        doReturn(Logger.getGlobal()).when(context).getLogger();
-        return context;
-    }
+    @MockBean
+    private MongoService mongoService;
 
     @Test
     public void testFunctionWithoutBody() {
-        // Invoke
-        final HttpResponseMessage ret = new Function().run(getReq(Optional.empty()), getContext());
-        // Verify
-        assertEquals(HttpStatus.BAD_REQUEST, ret.getStatus());
-        assertEquals(BAD_RESPONSE_BODY, ret.getBody());
+        client.post().uri("/api/TelegramWebhook")
+                .exchange()
+                .expectStatus()
+                .is5xxServerError();
     }
 
     @Test
-    public void testFunctionWithMessageWithoutMessageIdInBody(){
-        // Invoke
-        final HttpResponseMessage ret = new Function().run(getReq(Optional.of("{\n" +
-                "    \"message\": {}\n" +
-                "}")), getContext());
-        // Verify
-        assertEquals(HttpStatus.BAD_REQUEST, ret.getStatus());
-        assertEquals(BAD_RESPONSE_BODY, ret.getBody());
+    public void testFunctionWithMessageWithoutMessageIdInBody() {
+        long id = 7;
+        BotRequest botRequest = new BotRequest(id, null);
+        client.post().uri("/api/TelegramWebhook")
+                .body(Mono.just(botRequest), BotRequest.class)
+                .exchange()
+                .expectStatus()
+                .is5xxServerError();
     }
 
     @Test
-    public void testFunctionWithMessageIdWithoutMessageInBody(){
-        // Invoke
-        final HttpResponseMessage ret = new Function().run(getReq(Optional.of("{\n" +
-                "    \"message\": {\n" +
-                "        \"message_id\": 12345\n" +
-                "    }\n" +
-                "}")), getContext());
-        // Verify
-        assertEquals(HttpStatus.BAD_REQUEST, ret.getStatus());
-        assertEquals(BAD_RESPONSE_BODY, ret.getBody());
+    public void testFunctionWithMessageIdWithoutMessageInBody() {
+        long id = 7;
+        Message message = new Message(id, null);
+        BotRequest botRequest = new BotRequest(id, message);
+        client.post().uri("/api/TelegramWebhook")
+                .body(Mono.just(botRequest), BotRequest.class)
+                .exchange()
+                .expectStatus()
+                .is5xxServerError();
     }
 
-
     @Test
-    public void testFunctionWithCorrectBody(){
+    public void testFunctionWithCorrectBody() {
         int ID = 12345;
-        // Invoke
-        final HttpResponseMessage ret = new Function().run(getReq(Optional.of("{\n" +
-                "    \"message\": {\n" +
-                "        \"message_id\": " + ID + ",\n" +
-                "        \"text\": \"TEST\"\n" +
-                "    }\n" +
-                "}")), getContext());
-        // Verify
-        assertEquals(HttpStatus.OK, ret.getStatus());
-        assertEquals("message_id :  " + ID, ret.getBody());
+        BotResponse expected = new BotResponse(ID);
+        Message message = new Message(ID, "message");
+        BotRequest botRequest = new BotRequest(ID, message);
+
+        doNothing().when(mongoService).insertOneRequest(any(BotRequest.class));
+
+        client.post().uri("/api/TelegramWebhook")
+                .body(Mono.just(botRequest), BotRequest.class)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(BotResponse.class)
+                .isEqualTo(expected);
     }
 
 }
