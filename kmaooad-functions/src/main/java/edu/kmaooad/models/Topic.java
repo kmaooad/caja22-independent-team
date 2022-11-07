@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 @Setter
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Topic {
     @NotNull
     @Id
@@ -20,7 +21,7 @@ public class Topic {
     @DBRef
     private Topic parentTopic;
 
-    Topic (String topicID, String topicName){
+    public Topic(String topicID, String topicName){
         this.topicID = topicID;
         this.topicName = topicName;
     }

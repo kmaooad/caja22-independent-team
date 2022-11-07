@@ -11,6 +11,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Project {
 
     @NotNull

@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class SkillSet {
 
     @NotNull
@@ -23,7 +24,7 @@ public class SkillSet {
 
     private Set<Skill> skillSet;
 
-    private void addSkill(Skill input){
+    public void addSkill(Skill input){
 
         if(skillSet==null){
             skillSet = new HashSet<Skill>();
@@ -33,7 +34,7 @@ public class SkillSet {
 
     }
 
-    private void removeSkill(Skill input){
+    public void removeSkill(Skill input){
         if (skillSet==null){
             return;
         }

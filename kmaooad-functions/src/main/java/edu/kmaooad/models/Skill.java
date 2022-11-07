@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 @Setter
 @AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Skill {
     @NotNull
     @Id
@@ -18,9 +19,9 @@ public class Skill {
     private String skillName;
 
     @DBRef
-    private Topic parentSkill;
+    private Skill parentSkill;
 
-    Skill (String skillID, String skillName){
+    public Skill(String skillID, String skillName){
         this.skillID = skillID;
         this.skillName = skillName;
     }
