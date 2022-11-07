@@ -1,0 +1,7 @@
+bot:
+  name: IndependentBot
+  token: 5684553448:AAHV4Alv_F3GKj_2LpIXhGx6LNLQYuZUGSc
+
+spring:
+  main:
+    allow-circular-references: true
