@@ -79,7 +79,7 @@
         <dependency>
             <groupId>com.github.xabgesagtx</groupId>
             <artifactId>telegram-spring-boot-starter</artifactId>
-            <version>0.22</version>
+            <version>0.26</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.telegram/telegrambots -->
 

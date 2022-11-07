@@ -20,8 +20,10 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         try {
-            execute(new SendMessage().setChatId(update.getMessage().getChatId())
-            .setText("Hi!"));
+            SendMessage message = new SendMessage();
+            message.setChatId(String.valueOf(update.getMessage().getChatId()));
+            message.setText("Independent team is independent");
+            execute(message);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
