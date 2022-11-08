@@ -1,6 +1,6 @@
 package edu.kmaooad.models;
 
-import com.sun.istack.internal.NotNull;
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
