@@ -36,9 +36,14 @@ class BotRequestTest {
     }
 
     @Test
-    void testEqualsTest() {
+    void testEqualsAndHashCodeTest() {
         BotRequest botRequest2 = new BotRequest(botRequest.getUpdate_id(), botRequest.getMessage());
         assertTrue(botRequest.equals(botRequest2));
+
+        //test hashcode
+
+        assertTrue(botRequest.hashCode()==botRequest2.hashCode());
+
         botRequest2.setUpdate_id(1234L);
         assertFalse(botRequest.equals(botRequest2));
     }

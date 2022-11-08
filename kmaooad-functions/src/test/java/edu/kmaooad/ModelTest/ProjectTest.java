@@ -9,13 +9,28 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProjectTest {
     Set<Skill> newSkillSet = new HashSet<>();
 
     Project project = new Project("1234","independent","independent description", new Topic("1","topic"),new Skill("2","skill"),new SkillSet("3","skill set", newSkillSet));
 
+    @Test
+    void testProjectBuilder(){
+        Project projectBuild =
+                Project.builder()
+                        .projectID("1234")
+                        .projectTitle("independent")
+                        .projectDescription("independent description")
+                        .topic(new Topic("1","topic"))
+                        .skill(new Skill("2","skill"))
+                        .skillSet(new SkillSet("3","skill set", newSkillSet)).build();
+
+
+        assertEquals(project,projectBuild);
+
+    }
     @Test
     void getProjectId(){
         assertEquals("1234", project.getProjectID());
@@ -87,4 +102,13 @@ public class ProjectTest {
     void projectToString(){
         assertEquals("Project(projectID=1234, projectTitle=independent, projectDescription=independent description, topic=Topic(topicID=1, topicName=topic, parentTopic=null), skill=Skill(skillID=2, skillName=skill, parentSkill=null), skillSet=SkillSet(skillSetID=3, skillSetName=skill set, skillSet=[]))", project.toString());
     }
+
+    @Test
+    void testProjectEqualsAndHashCode(){
+        Project equalProject = new Project("1234","independent","independent description", new Topic("1","topic"),new Skill("2","skill"),new SkillSet("3","skill set", newSkillSet));
+
+        assertTrue(project.equals(equalProject));
+        assertTrue(project.hashCode() == equalProject.hashCode());
+    }
+
 }
