@@ -36,13 +36,18 @@ class MessageTest {
     }
 
     @Test
-    void testEqualsTest() {
+    void testEqualsAndHashCodeTest() {
         Message message2 = new Message(message.getMessage_id(), message.getText());
         assertEquals(message2, message);
         assertTrue(message2.equals(message));
+
+        //test hash code
+        assertTrue(message.hashCode()==message2.hashCode());
+
         message2.setText("NOT BOT");
         assertNotEquals(message2, message);
         assertFalse(message2.equals(message));
+
     }
 
     @Test

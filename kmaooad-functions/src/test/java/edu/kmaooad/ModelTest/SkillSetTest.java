@@ -7,12 +7,22 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
+//null?
 public class SkillSetTest {
 
     SkillSet skillSet = new SkillSet("1234", "test", new HashSet<>());
 
+    @Test
+    void testSkillSetBuilder(){
+        SkillSet skillSetBuilder = SkillSet.builder()
+                .skillSetID("1234")
+                .skillSetName("test")
+                .skillSet(new HashSet<>()).build();
+
+        assertEquals(skillSet,skillSetBuilder);
+    }
     @Test
     void getSkillSetId(){
         assertEquals("1234", skillSet.getSkillSetID());
@@ -57,6 +67,13 @@ public class SkillSetTest {
         Set<Skill> check = new HashSet<>();
         check.add(new Skill("1234","test"));
         assertEquals(check,skillSet.getSkillSet());
+
+        SkillSet test = new SkillSet("1234", "test", null);
+        test.addSkill(new Skill("1234","test"));
+
+        assertEquals(check,test.getSkillSet());
+
+
     }
 
     @Test
@@ -71,10 +88,23 @@ public class SkillSetTest {
         skillSet.removeSkill(new Skill("1235","test-2"));
 
         assertEquals(check,skillSet.getSkillSet());
+
+        SkillSet test = new SkillSet("1234", "test", null);
+        test.removeSkill(new Skill("1234","test"));
+
+        assertEquals(null,test.getSkillSet());
     }
 
     @Test
     void skillSetToString(){
         assertEquals("SkillSet(skillSetID=1234, skillSetName=test, skillSet=[])", skillSet.toString());
+    }
+
+    @Test
+    void testSkillSetEqualsAndHashCode(){
+        SkillSet equalSkillSet = new SkillSet("1234", "test", new HashSet<>());
+
+        assertTrue(skillSet.equals(equalSkillSet));
+        assertTrue(skillSet.hashCode() == equalSkillSet.hashCode());
     }
 }

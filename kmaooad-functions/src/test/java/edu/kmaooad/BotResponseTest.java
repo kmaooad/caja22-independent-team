@@ -23,8 +23,8 @@ public class BotResponseTest {
     @Test
     void testEquals() {
         BotResponse botResponse1 = new BotResponse(botResponse.getMessageId());
-        assertEquals(botResponse1, botResponse);
+        assertTrue(botResponse1.equals(botResponse));
         botResponse1.setMessageId(1234L);
-        assertNotEquals(botResponse1, botResponse);
+        assertFalse(botResponse1.equals(botResponse));
     }
 }
