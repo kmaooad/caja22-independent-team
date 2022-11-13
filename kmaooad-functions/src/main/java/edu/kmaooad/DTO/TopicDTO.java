@@ -1,33 +1,26 @@
-package edu.kmaooad.models;
+package edu.kmaooad.DTO;
 
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-@Builder
+
 @Getter
 @Setter
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Topic {
-    @NotNull
-    @Id
-    private String topicID;
+public class TopicDTO {
+
     @NotNull
     private String topicName;
 
     @DBRef
-    private Topic parentTopic;
+    private TopicDTO parentTopic;
 
-    public Topic(String topicID, String topicName){
-        this.topicID = topicID;
+    public TopicDTO( String topicName){
         this.topicName = topicName;
     }
-    public Topic(){
-
-    }
-
 
 }
