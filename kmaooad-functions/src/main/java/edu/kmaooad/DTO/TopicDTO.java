@@ -13,10 +13,10 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 @EqualsAndHashCode
 public class TopicDTO {
 
-    @NotNull
+
     private String topicName;
 
-    @DBRef
+
     private String parentTopicId;
 
     public TopicDTO( String topicName){

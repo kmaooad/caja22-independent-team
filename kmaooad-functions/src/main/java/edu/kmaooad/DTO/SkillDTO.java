@@ -13,7 +13,7 @@ public class SkillDTO {
 
     private String skillName;
 
-    @DBRef
+
     private String parentSkillID;
 
     public SkillDTO(String skillID){
