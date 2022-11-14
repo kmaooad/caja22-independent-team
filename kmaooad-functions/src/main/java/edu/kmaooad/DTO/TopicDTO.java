@@ -17,7 +17,7 @@ public class TopicDTO {
     private String topicName;
 
     @DBRef
-    private TopicDTO parentTopic;
+    private String parentTopicId;
 
     public TopicDTO( String topicName){
         this.topicName = topicName;

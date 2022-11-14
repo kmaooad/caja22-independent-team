@@ -16,10 +16,10 @@ public class TopicService {
         this.topicRepository = topicRepository;
     }
 
-    public Topic createTopic(String topicName, String parentId) {
+    public Topic createTopic(TopicDTO dto) {
         Topic topic = new Topic();
-        topic.setTopicName(topicName);
-        Optional<Topic> parentTopic = topicRepository.findTopicByTopicID(parentId);
+        topic.setTopicName(dto.getTopicName());
+        Optional<Topic> parentTopic = topicRepository.findTopicByTopicID(dto.getParentTopicId());
         if (parentTopic.isPresent()) {
             topic.setParentTopic(parentTopic.get());
         }
@@ -36,11 +36,11 @@ public class TopicService {
         }
     }
 
-    public Topic updateTopic(String id, String topicName, String parentId) {
+    public Topic updateTopic(String id, TopicDTO dto) {
         Optional<Topic> topic = topicRepository.findTopicByTopicID(id);
         if (topic.isPresent()) {
-            topic.get().setTopicName(topicName);
-            Optional<Topic> parentTopic = topicRepository.findTopicByTopicID(parentId);
+            topic.get().setTopicName(dto.getTopicName());
+            Optional<Topic> parentTopic = topicRepository.findTopicByTopicID(dto.getParentTopicId());
 
                 if (!parentTopic.isPresent()) {
                     throw new TopicNotFoundException("Topic not found");

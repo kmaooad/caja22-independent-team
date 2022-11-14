@@ -1,5 +1,6 @@
 package edu.kmaooad.service;
 
+import edu.kmaooad.DTO.SkillDTO;
 import edu.kmaooad.exeptions.SkillNotFoundException;
 import edu.kmaooad.exeptions.TopicNotFoundException;
 import edu.kmaooad.models.Skill;
@@ -18,10 +19,10 @@ public class SkillService {
         this.skillRepository = skillRepository;
     }
 
-    public Skill createSkill(String skillName, String parentId) {
+    public Skill createSkill(SkillDTO dto) {
         Skill skill = new Skill();
-        skill.setSkillName(skillName);
-        Optional<Skill> parentTopic = skillRepository.findSkillBySkillID(parentId);
+        skill.setSkillName(dto.getSkillName());
+        Optional<Skill> parentTopic = skillRepository.findSkillBySkillID(dto.getParentSkillID());
         if (parentTopic.isPresent()) {
             skill.setParentSkill(parentTopic.get());
         }
@@ -37,11 +38,11 @@ public class SkillService {
             throw new SkillNotFoundException("Skill not found");
         }
     }
-    public Skill updateSkill(String id, String skillName, String parentId) {
+    public Skill updateSkill(String id,SkillDTO dto) {
         Optional<Skill> skill = skillRepository.findSkillBySkillID(id);
         if (skill.isPresent()) {
-            skill.get().setSkillName(skillName);
-            Optional<Skill> parentSkill = skillRepository.findSkillBySkillID(parentId);
+            skill.get().setSkillName(dto.getSkillName());
+            Optional<Skill> parentSkill = skillRepository.findSkillBySkillID(dto.getParentSkillID());
 
                 if (!parentSkill.isPresent()) {
                     throw new SkillNotFoundException("Skill not found");

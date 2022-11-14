@@ -10,11 +10,11 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 @Setter
 public class SkillDTO {
 
-    @NotNull
+
     private String skillName;
 
     @DBRef
-    private SkillDTO parentSkill;
+    private String parentSkillID;
 
     public SkillDTO(String skillID){
              this.skillName = skillName;
