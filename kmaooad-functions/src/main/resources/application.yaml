@@ -5,3 +5,10 @@ bot:
 spring:
   main:
     allow-circular-references: true
+
+logging:
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure=ERROR:
