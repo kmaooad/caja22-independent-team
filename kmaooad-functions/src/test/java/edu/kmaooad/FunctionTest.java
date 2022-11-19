@@ -1,5 +1,6 @@
 package edu.kmaooad;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.*;
  */
 @FunctionalSpringBootTest
 @AutoConfigureWebTestClient
+@Disabled
 public class FunctionTest {
     @Autowired
     private WebTestClient client;
@@ -34,7 +36,6 @@ public class FunctionTest {
                 .expectStatus()
                 .is5xxServerError();
     }
-
     @Test
     public void testFunctionWithMessageWithoutMessageIdInBody() {
         long id = 7;
