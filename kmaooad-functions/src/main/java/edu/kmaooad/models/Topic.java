@@ -25,5 +25,9 @@ public class Topic {
         this.topicID = topicID;
         this.topicName = topicName;
     }
+    public Topic(){
+
+    }
+
 
 }

@@ -25,5 +25,9 @@ public class Skill {
         this.skillID = skillID;
         this.skillName = skillName;
     }
+    public Skill(){
+
+    }
+
 
 }
