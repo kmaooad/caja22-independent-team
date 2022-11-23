@@ -3,6 +3,7 @@ package edu.kmaooad.models;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
 public class Project {
@@ -22,11 +24,14 @@ public class Project {
     @NotNull
     private String projectDescription;
     @NotNull
-    private Topic topic;
+    @DBRef
+    private Set<Topic> topics;
     @NotNull
-    private Skill skill;
+    @DBRef
+    private Set<Skill> skills;
     @NotNull
-    private SkillSet skillSet;
+    @DBRef
+    private Set<SkillSet> skillSets;
 
 
 }

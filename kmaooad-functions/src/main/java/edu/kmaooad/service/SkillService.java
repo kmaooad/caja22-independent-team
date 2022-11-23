@@ -8,9 +8,11 @@ import edu.kmaooad.models.Topic;
 import edu.kmaooad.repository.SkillRepository;
 import edu.kmaooad.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class SkillService {
     @Autowired
     SkillRepository skillRepository;
@@ -57,6 +59,9 @@ public class SkillService {
 
     }
 
-
+    public Skill findSkillById(String skillId) {
+        return skillRepository.findById(skillId)
+                .orElseThrow(() -> new SkillNotFoundException("Skill with id " + skillId + " not found"));
+    }
 
 }
