@@ -1,13 +1,17 @@
 package edu.kmaooad.service;
 
 import edu.kmaooad.DTO.TopicDTO;
+import edu.kmaooad.exeptions.SkillSetNotFoundException;
 import edu.kmaooad.exeptions.TopicNotFoundException;
+import edu.kmaooad.models.SkillSet;
 import edu.kmaooad.models.Topic;
 import edu.kmaooad.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class TopicService {
     @Autowired
     TopicRepository topicRepository;
@@ -55,6 +59,9 @@ public class TopicService {
 
     }
 
-
+    public Topic findTopicById(String topicId) {
+        return topicRepository.findById(topicId)
+                .orElseThrow(() -> new TopicNotFoundException("Skill with id " + topicId + " not found"));
+    }
 
 }
