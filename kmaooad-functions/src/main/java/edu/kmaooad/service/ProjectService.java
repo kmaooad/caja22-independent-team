@@ -35,11 +35,11 @@ public class ProjectService {
         return projectRepository.save(mapFromDtoToEntity(dto));
     }
 
-    public void deleteSkillSet(String projectId) {
+    public void deleteProject(String projectId) {
         projectRepository.deleteById(projectId);
     }
 
-    public void updateSkillSet(String id, ProjectDTO dto) {
+    public void updateProject(String id, ProjectDTO dto) {
         Optional<Project> project = projectRepository.findById(id);
         if (project.isPresent()) {
             Project updated = mapFromDtoToEntity(dto);
@@ -50,7 +50,7 @@ public class ProjectService {
         }
     }
 
-    private Project mapFromDtoToEntity(ProjectDTO dto) {
+    protected Project mapFromDtoToEntity(ProjectDTO dto) {
         Project res = new Project();
         res.setProjectID(dto.getProjectId());
         res.setProjectTitle(dto.getProjectTitle());
@@ -82,7 +82,7 @@ public class ProjectService {
         return dto.getSkillSetIds().stream()
                 .map(skillSetId -> {
                     try {
-                        return skillSetService.findSkillById(skillSetId);
+                        return skillSetService.findSkillSetById(skillSetId);
                     } catch (SkillSetNotFoundException skillNotFoundException) {
                         log.warn("Skill set with id {} will not be added to project as it doesn't exists", skillSetId);
                         return null;

@@ -58,7 +58,7 @@ public class SkillSetService {
         skillSetRepository.save(skillSet);
     }
 
-    public SkillSet mapFromDtoToEntity(SkillSetDTO skillSetDTO) {
+    protected SkillSet mapFromDtoToEntity(SkillSetDTO skillSetDTO) {
         SkillSet res = new SkillSet();
         res.setSkillSetID(skillSetDTO.getSkillSetId());
         res.setSkillSetName(skillSetDTO.getSkillSetName());
@@ -77,7 +77,7 @@ public class SkillSetService {
         return res;
     }
 
-    public SkillSet findSkillById(String skillSetId) {
+    public SkillSet findSkillSetById(String skillSetId) {
         return skillSetRepository.findById(skillSetId)
                 .orElseThrow(() -> new SkillSetNotFoundException(skillSetId));
     }
