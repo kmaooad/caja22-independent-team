@@ -3,6 +3,7 @@ package edu.kmaooad.models;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
 public class SkillSet {
@@ -22,24 +24,25 @@ public class SkillSet {
     //??
     private String skillSetName;
 
-    private Set<Skill> skillSet;
+    @DBRef
+    private Set<Skill> skills;
 
     public void addSkill(Skill input){
 
-        if(skillSet==null){
-            skillSet = new HashSet<Skill>();
+        if(skills ==null){
+            skills = new HashSet<>();
         }
 
-        skillSet.add(input);
+        skills.add(input);
 
     }
 
     public void removeSkill(Skill input){
-        if (skillSet==null){
+        if (skills ==null){
             return;
         }
 
-        skillSet.remove(input);
+        skills.remove(input);
     }
 
 

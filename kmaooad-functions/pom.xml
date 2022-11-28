@@ -144,16 +144,11 @@
             <artifactId>istack-commons-runtime</artifactId>
             <version>4.0.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.telegram/telegrambots -->
-
-
-        <!-- https://mvnrepository.com/artifact/org.telegram/telegrambots -->
-
-
-
-        <!-- https://mvnrepository.com/artifact/org.telegram/telegrambots -->
-
-
+        <dependency>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

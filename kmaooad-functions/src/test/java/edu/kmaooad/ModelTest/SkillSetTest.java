@@ -19,7 +19,7 @@ public class SkillSetTest {
         SkillSet skillSetBuilder = SkillSet.builder()
                 .skillSetID("1234")
                 .skillSetName("test")
-                .skillSet(new HashSet<>()).build();
+                .skills(new HashSet<>()).build();
 
         assertEquals(skillSet,skillSetBuilder);
     }
@@ -47,7 +47,7 @@ public class SkillSetTest {
 
     @Test
     void getSkillSet(){
-        assertEquals( new HashSet<>(), skillSet.getSkillSet());
+        assertEquals( new HashSet<>(), skillSet.getSkills());
     }
 
     @Test
@@ -56,8 +56,8 @@ public class SkillSetTest {
         Set<Skill> newSkillSet = new HashSet<>();
         newSkillSet.add(new Skill("1234","test"));
 
-        skillSet.setSkillSet(newSkillSet);
-        assertEquals(newSkillSet, skillSet.getSkillSet());
+        skillSet.setSkills(newSkillSet);
+        assertEquals(newSkillSet, skillSet.getSkills());
     }
 
     @Test
@@ -66,12 +66,12 @@ public class SkillSetTest {
 
         Set<Skill> check = new HashSet<>();
         check.add(new Skill("1234","test"));
-        assertEquals(check,skillSet.getSkillSet());
+        assertEquals(check,skillSet.getSkills());
 
         SkillSet test = new SkillSet("1234", "test", null);
         test.addSkill(new Skill("1234","test"));
 
-        assertEquals(check,test.getSkillSet());
+        assertEquals(check,test.getSkills());
 
 
     }
@@ -87,24 +87,24 @@ public class SkillSetTest {
 
         skillSet.removeSkill(new Skill("1235","test-2"));
 
-        assertEquals(check,skillSet.getSkillSet());
+        assertEquals(check,skillSet.getSkills());
 
         SkillSet test = new SkillSet("1234", "test", null);
         test.removeSkill(new Skill("1234","test"));
 
-        assertEquals(null,test.getSkillSet());
+        assertNull(test.getSkills());
     }
 
     @Test
     void skillSetToString(){
-        assertEquals("SkillSet(skillSetID=1234, skillSetName=test, skillSet=[])", skillSet.toString());
+        assertEquals("SkillSet(skillSetID=1234, skillSetName=test, skills=[])", skillSet.toString());
     }
 
     @Test
     void testSkillSetEqualsAndHashCode(){
         SkillSet equalSkillSet = new SkillSet("1234", "test", new HashSet<>());
 
-        assertTrue(skillSet.equals(equalSkillSet));
-        assertTrue(skillSet.hashCode() == equalSkillSet.hashCode());
+        assertEquals(skillSet, equalSkillSet);
+        assertEquals(skillSet.hashCode(), equalSkillSet.hashCode());
     }
 }
