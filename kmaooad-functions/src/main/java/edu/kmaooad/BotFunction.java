@@ -15,6 +15,7 @@ import static edu.kmaooad.Constants.APPLICATION_OBJECT_MAPPER;
  * Azure Functions with HTTP Trigger.
  */
 public class BotFunction extends FunctionInvoker<BotRequest, BotResponse> {
+
     /**
      * This function listens at endpoint "/api/TelegramWebhook". To invoke it using "curl" command in bash:
      * curl -d "HTTP Body" {your host}/api/TelegramWebhook

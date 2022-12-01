@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
  */
 @FunctionalSpringBootTest
 @AutoConfigureWebTestClient
-@Disabled
+//@Disabled
 public class FunctionTest {
     @Autowired
     private WebTestClient client;

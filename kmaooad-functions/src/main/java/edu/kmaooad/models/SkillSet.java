@@ -28,22 +28,16 @@ public class SkillSet {
     private Set<Skill> skills;
 
     public void addSkill(Skill input){
-
-        if(skills ==null){
+        if(skills == null){
             skills = new HashSet<>();
         }
-
         skills.add(input);
-
     }
 
     public void removeSkill(Skill input){
-        if (skills ==null){
-            return;
+        if (skills != null){
+            skills.remove(input);
         }
-
-        skills.remove(input);
     }
-
 
 }

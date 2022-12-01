@@ -12,3 +12,5 @@ logging:
       springframework:
         boot:
           autoconfigure=ERROR:
+server:
+  port: 8000
