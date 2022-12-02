@@ -1,5 +1,7 @@
-package edu.kmaooad;
+package edu.kmaooad.service;
 
+import edu.kmaooad.BotRequest;
+import edu.kmaooad.BotResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

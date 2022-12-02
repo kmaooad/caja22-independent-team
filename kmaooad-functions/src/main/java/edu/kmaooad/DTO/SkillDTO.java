@@ -5,16 +5,9 @@ import lombok.*;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@EqualsAndHashCode
 public class SkillDTO {
-
-
     private String skillName;
-
-
     private String parentSkillID;
-
-    public SkillDTO(String skillID){
-        this.skillName = skillName;
-    }
-
 }

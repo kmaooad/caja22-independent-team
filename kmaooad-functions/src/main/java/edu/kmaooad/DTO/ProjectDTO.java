@@ -1,9 +1,6 @@
 package edu.kmaooad.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
@@ -11,6 +8,7 @@ import java.util.Set;
 @Setter
 @Builder
 @AllArgsConstructor
+@EqualsAndHashCode
 public class ProjectDTO {
     private String projectId;
     private String projectTitle;

@@ -9,12 +9,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode
 public class SkillSet {
 
     @NotNull
