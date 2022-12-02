@@ -35,7 +35,7 @@ public class SkillService {
         Optional<Skill> skill = skillRepository.findSkillBySkillID(skillId);
         if (skill.isPresent()) {
             skillRepository.delete(skill.get());
-            return exist(skill.get().getSkillID());
+            return !exist(skill.get().getSkillID());
         } else {
             throw new SkillNotFoundException("Skill not found");
         }
@@ -49,8 +49,9 @@ public class SkillService {
                 throw new SkillNotFoundException("Skill not found");
             }
             skill.get().setParentSkill(parentSkill.get());
-            skillRepository.save(skill.get());
-            return exist(skill.get().getSkillID());
+            Skill updatedSkill = skill.get();
+            skillRepository.save(updatedSkill);
+            return findSkillById(updatedSkill.getSkillID()).equals(updatedSkill);
         }
         else{
             throw new TopicNotFoundException("Skill not found");
