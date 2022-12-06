@@ -2,6 +2,7 @@ package edu.kmaooad;
 
 import edu.kmaooad.service.MongoService;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.*;
  */
 @FunctionalSpringBootTest
 @AutoConfigureWebTestClient
-//@Disabled
+@Disabled
 public class FunctionTest {
     @Autowired
     private WebTestClient client;
