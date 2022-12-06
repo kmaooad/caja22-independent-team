@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface TopicRepository extends MongoRepository<Topic, String> {
-
+    Optional<Topic> findTopicByTopicName(String skillName);
     Optional<Topic> findTopicByTopicID(String id);
 }
