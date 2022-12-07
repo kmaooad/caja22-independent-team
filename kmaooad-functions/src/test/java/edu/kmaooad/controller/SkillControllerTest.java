@@ -53,18 +53,18 @@ class SkillControllerTest {
         Skill skill5 = new Skill("5", "skill5", skill1);
         Skill skill6 = new Skill("6", "skill6", skill1);
 
-        SkillDTO skillDTO5 = new SkillDTO("skilldto5", "1");
-        SkillDTO skillDTO6 = new SkillDTO("skilldto6", "1");
+        SkillDTO skillDTO5 = new SkillDTO("5","skilldto5", "1");
+        SkillDTO skillDTO6 = new SkillDTO("6","skilldto6", "1");
 
         when(service.findAllSkills()).thenReturn(List.of(skill1,skill2));
         when(service.findOptionalSkillById("1")).thenReturn(Optional.of(skill1));
         when(service.findOptionalSkillById("2")).thenReturn(Optional.of(skill2));
         when(service.findOptionalSkillById("3")).thenReturn(Optional.empty());
 
-        when(service.createSkill(skillDTO5)).thenReturn(skill5);
+        when(service.createSkill(skillDTO5)).thenReturn(Optional.of(skill5));
         when(service.exist("5")).thenReturn(true);
 
-        when(service.createSkill(skillDTO6)).thenReturn(skill6);
+        when(service.createSkill(skillDTO6)).thenReturn(Optional.of(skill6));
         when(service.exist("6")).thenReturn(false);
 
         when(service.updateSkill("5", skillDTO5)).thenReturn(true);
@@ -120,6 +120,7 @@ class SkillControllerTest {
     @Test
     void createSkill_CREATED() throws Exception {
         String content = "{" +
+                "\"skillId\":\"5\"," +
                 "\"skillName\":\"skilldto5\"," +
                 "\"parentSkillID\":\"1\"" +
                 "}";
@@ -135,6 +136,7 @@ class SkillControllerTest {
     @Test
     void createSkill_BAD() throws Exception {
         String content = "{" +
+                "\"skillId\":\"6\"," +
                 "\"skillName\":\"skilldto6\"," +
                 "\"parentSkillID\":\"1\"" +
                 "}";
@@ -150,6 +152,7 @@ class SkillControllerTest {
     @Test
     void updateSkill_OK() throws Exception {
         String content = "{" +
+                "\"skillId\":\"5\"," +
                 "\"skillName\":\"skilldto5\"," +
                 "\"parentSkillID\":\"1\"" +
                 "}";
@@ -165,6 +168,7 @@ class SkillControllerTest {
     @Test
     void updateSkill_BAD() throws Exception {
         String content = "{" +
+                "\"skillId\":\"6\"," +
                 "\"skillName\":\"skilldto6\"," +
                 "\"parentSkillID\":\"1\"" +
                 "}";

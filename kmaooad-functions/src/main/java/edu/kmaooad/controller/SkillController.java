@@ -31,7 +31,8 @@ public class SkillController {
 
     @PostMapping()
     public ResponseEntity<?> createSkill(@RequestBody SkillDTO dto) {
-        return skillService.exist(skillService.createSkill(dto).getSkillID()) ?
+        Optional<Skill> newSkill = skillService.createSkill(dto);
+        return newSkill.isPresent() && skillService.exist(newSkill.get().getSkillID()) ?
                 new ResponseEntity<>("New Skill created", HttpStatus.CREATED) :
                 new ResponseEntity<>("New Skill not created", HttpStatus.BAD_REQUEST);
     }

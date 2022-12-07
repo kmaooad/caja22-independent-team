@@ -49,18 +49,18 @@ class TopicControllerTest {
         Topic topic5 = new Topic("5", "Topic5", topic1);
         Topic topic6 = new Topic("6", "Topic6", topic1);
 
-        TopicDTO topicDTO5 = new TopicDTO("Topicdto5", "1");
-        TopicDTO topicDTO6 = new TopicDTO("Topicdto6", "1");
+        TopicDTO topicDTO5 = new TopicDTO("5", "Topicdto5", "1");
+        TopicDTO topicDTO6 = new TopicDTO("6","Topicdto6", "1");
 
         when(service.findAllTopics()).thenReturn(List.of(topic1,topic2));
         when(service.findOptionalTopicById("1")).thenReturn(Optional.of(topic1));
         when(service.findOptionalTopicById("2")).thenReturn(Optional.of(topic2));
         when(service.findOptionalTopicById("3")).thenReturn(Optional.empty());
 
-        when(service.createTopic(topicDTO5)).thenReturn(topic5);
+        when(service.createTopic(topicDTO5)).thenReturn(Optional.of(topic5));
         when(service.exist("5")).thenReturn(true);
 
-        when(service.createTopic(topicDTO6)).thenReturn(topic6);
+        when(service.createTopic(topicDTO6)).thenReturn(Optional.of(topic6));
         when(service.exist("6")).thenReturn(false);
 
         when(service.updateTopic("5", topicDTO5)).thenReturn(true);
@@ -116,6 +116,7 @@ class TopicControllerTest {
     @Test
     void createTopic_CREATED() throws Exception {
         String content = "{" +
+                "\"topicId\":\"5\"," +
                 "\"topicName\":\"Topicdto5\"," +
                 "\"parentTopicId\":\"1\"" +
                 "}";
@@ -131,6 +132,7 @@ class TopicControllerTest {
     @Test
     void createTopic_BAD() throws Exception {
         String content = "{" +
+                "\"topicId\":\"6\"," +
                 "\"topicName\":\"Topicdto6\"," +
                 "\"parentTopicId\":\"1\"" +
                 "}";
@@ -146,6 +148,7 @@ class TopicControllerTest {
     @Test
     void updateTopic_OK() throws Exception {
         String content = "{" +
+                "\"topicId\":\"5\"," +
                 "\"topicName\":\"Topicdto5\"," +
                 "\"parentTopicId\":\"1\"" +
                 "}";
@@ -161,6 +164,7 @@ class TopicControllerTest {
     @Test
     void updateTopic_BAD() throws Exception {
         String content = "{" +
+                "\"topicId\":\"6\"," +
                 "\"topicName\":\"Topicdto6\"," +
                 "\"parentTopicId\":\"1\"" +
                 "}";

@@ -1,6 +1,7 @@
 package edu.kmaooad.controller;
 
 import edu.kmaooad.DTO.TopicDTO;
+import edu.kmaooad.models.Skill;
 import edu.kmaooad.models.Topic;
 import edu.kmaooad.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,8 @@ public class TopicController {
 
     @PostMapping()
     public ResponseEntity<?> createTopic(@RequestBody TopicDTO dto) {
-        return topicService.exist(topicService.createTopic(dto).getTopicID()) ?
+        Optional<Topic> newTopic = topicService.createTopic(dto);
+        return newTopic.isPresent() && topicService.exist(newTopic.get().getTopicID()) ?
                 new ResponseEntity<>("New Topic created", HttpStatus.CREATED) :
                 new ResponseEntity<>("New Topic not created", HttpStatus.BAD_REQUEST);
     }
