@@ -5,6 +5,8 @@ import edu.kmaooad.exeptions.SkillNotFoundException;
 import edu.kmaooad.exeptions.TopicNotFoundException;
 import edu.kmaooad.models.Skill;
 import edu.kmaooad.repository.SkillRepository;
+import edu.kmaooad.repository.TopicRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,23 +14,21 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class SkillService {
     @Autowired
     SkillRepository skillRepository;
 
-    public SkillService(SkillRepository skillRepository) {
-        this.skillRepository = skillRepository;
-    }
-
-    public Skill createSkill(SkillDTO dto) {
+    public Optional<Skill> createSkill(SkillDTO dto) {
         Skill skill = new Skill();
+        skill.setSkillID(dto.getSkillId());
         skill.setSkillName(dto.getSkillName());
         Optional<Skill> parentTopic = skillRepository.findSkillBySkillID(dto.getParentSkillID());
         if (parentTopic.isPresent()) {
             skill.setParentSkill(parentTopic.get());
         }
         skillRepository.save(skill);
-        return skill;
+        return Optional.of(skill);
     }
 
     public boolean deleteSkill(String skillId) {

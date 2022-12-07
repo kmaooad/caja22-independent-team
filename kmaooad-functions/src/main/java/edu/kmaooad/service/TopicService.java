@@ -20,13 +20,14 @@ public class TopicService {
         this.topicRepository = topicRepository;
     }
 
-    public Topic createTopic(TopicDTO dto) {
+    public Optional<Topic> createTopic(TopicDTO dto) {
         Topic topic = new Topic();
+        topic.setTopicID(dto.getTopicId());
         topic.setTopicName(dto.getTopicName());
         Optional<Topic> parentTopic = topicRepository.findTopicByTopicID(dto.getParentTopicId());
         parentTopic.ifPresent(topic::setParentTopic);
         topicRepository.save(topic);
-        return topic;
+        return Optional.of(topic);
     }
 
     public boolean deleteTopic(String topicId) {
