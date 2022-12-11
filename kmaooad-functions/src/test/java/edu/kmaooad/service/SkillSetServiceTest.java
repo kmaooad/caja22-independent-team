@@ -1,10 +1,13 @@
 package edu.kmaooad.service;
 
 import edu.kmaooad.DTO.SkillSetDTO;
+import edu.kmaooad.exeptions.SkillNotFoundException;
 import edu.kmaooad.exeptions.SkillSetNotFoundException;
+import edu.kmaooad.exeptions.TopicNotFoundException;
 import edu.kmaooad.models.Skill;
 import edu.kmaooad.models.SkillSet;
 import edu.kmaooad.repository.SkillSetRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -160,6 +163,38 @@ public class SkillSetServiceTest {
 
         assertTrue(res.getMessage().contains(unexistingId));
     }
+    @Test
+    void skillNotFoundEx() {
+        SkillNotFoundException thrown = Assertions.assertThrows(SkillNotFoundException.class, () -> {
+            throw new SkillNotFoundException("fd");
+        });
+        Assertions.assertEquals("fd", thrown.getMessage());
+    }
+
+    @Test
+    void wrongSkillNotFoundEx() {
+        SkillNotFoundException thrown = Assertions.assertThrows(SkillNotFoundException.class, () -> {
+            throw new SkillNotFoundException("fda");
+        });
+        Assertions.assertNotEquals("fd", thrown.getMessage());
+    }
+
+    @Test
+    void topicNotFoundEx() {
+        TopicNotFoundException thrown = Assertions.assertThrows(TopicNotFoundException.class, () -> {
+            throw new TopicNotFoundException("fd");
+        });
+        Assertions.assertEquals("fd", thrown.getMessage());
+    }
+
+    @Test
+    void wrongTopicNotFoundEx() {
+        TopicNotFoundException thrown = Assertions.assertThrows(TopicNotFoundException.class, () -> {
+            throw new TopicNotFoundException("fda");
+        });
+        Assertions.assertNotEquals("fd", thrown.getMessage());
+    }
+
 
     private static SkillSet initTestObject() {
         Skill skill = new Skill("1", "Skill", null);

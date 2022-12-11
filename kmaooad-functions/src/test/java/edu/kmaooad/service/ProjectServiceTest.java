@@ -1,6 +1,7 @@
 package edu.kmaooad.service;
 
 import edu.kmaooad.DTO.ProjectDTO;
+import edu.kmaooad.DTO.SkillDTO;
 import edu.kmaooad.DTO.SkillSetDTO;
 import edu.kmaooad.exeptions.ProjectNotFoundException;
 import edu.kmaooad.exeptions.SkillSetNotFoundException;
@@ -96,6 +97,58 @@ public class ProjectServiceTest {
         verify(projectRepository, never()).save(any());
 
         assertTrue(res.getMessage().contains(unexistingId));
+    }
+    @Test
+    void testDTOs() {
+        ProjectDTO projectDTO = new ProjectDTO(PROJECT_DTO.getProjectId(), "neeew name", "new description",
+                PROJECT_DTO.getTopicIds(), PROJECT_DTO.getSkillIds(), PROJECT_DTO.getSkillSetIds());
+        assertNotNull(projectDTO.getProjectDescription());
+        assertNotNull(projectDTO.getProjectTitle());
+        assertNotNull(projectDTO.getSkillSetIds());
+        assertNotNull(projectDTO.getTopicIds());
+        assertNotNull(projectDTO.getSkillIds());
+        assertNotNull(projectDTO.getSkillSetIds());
+
+        assertTrue(true);
+
+    }
+    @Test
+    void testDTOs2() {
+        ProjectDTO projectDTO = new ProjectDTO(PROJECT_DTO.getProjectId(), "neeew name", "new description",
+                PROJECT_DTO.getTopicIds(), PROJECT_DTO.getSkillIds(), PROJECT_DTO.getSkillSetIds());
+
+        projectDTO.setProjectId(null);
+        projectDTO.setProjectTitle(null);
+        projectDTO.setProjectDescription(null);
+        projectDTO.setTopicIds(null);
+        projectDTO.setSkillSetIds(null);
+        projectDTO.setSkillIds(null);
+
+        assertNull(projectDTO.getProjectDescription());
+        assertNull(projectDTO.getProjectTitle());
+        assertNull(projectDTO.getSkillSetIds());
+        assertNull(projectDTO.getTopicIds());
+        assertNull(projectDTO.getSkillIds());
+        assertNull(projectDTO.getSkillSetIds());
+
+        assertTrue(true);
+
+    }
+
+    @Test
+    void testDTOsSkillDTO() {
+        SkillDTO skillDTO = new SkillDTO("skill");
+
+        skillDTO.setSkillId(null);
+        skillDTO.setParentSkillID(null);
+        skillDTO.setParentSkillID(null);
+
+
+        assertNull(skillDTO.getSkillId());
+        assertNull(skillDTO.getParentSkillID());
+        assertNull(skillDTO.getParentSkillID());
+
+        assertTrue(true);
     }
 
     private static Project initTestObject() {
