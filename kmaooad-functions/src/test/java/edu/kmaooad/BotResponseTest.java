@@ -27,4 +27,11 @@ public class BotResponseTest {
         botResponse1.setMessageId(1234L);
         assertFalse(botResponse1.equals(botResponse));
     }
+
+    @Test
+    void tesHashNotEqualsNull() {
+        BotResponse botResponse1 = new BotResponse(botResponse.getMessageId());
+       assertNotNull(botResponse1.hashCode());
+    }
+
 }
