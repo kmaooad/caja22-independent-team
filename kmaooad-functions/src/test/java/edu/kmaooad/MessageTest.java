@@ -42,7 +42,7 @@ class MessageTest {
         assertTrue(message2.equals(message));
 
         //test hash code
-        assertTrue(message.hashCode()==message2.hashCode());
+        assertTrue(message.hashCode() == message2.hashCode());
 
         message2.setText("NOT BOT");
         assertNotEquals(message2, message);

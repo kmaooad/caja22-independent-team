@@ -9,12 +9,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode
 public class SkillSet {
 
     @NotNull
@@ -28,22 +25,16 @@ public class SkillSet {
     private Set<Skill> skills;
 
     public void addSkill(Skill input){
-
-        if(skills ==null){
+        if(skills == null){
             skills = new HashSet<>();
         }
-
         skills.add(input);
-
     }
 
     public void removeSkill(Skill input){
-        if (skills ==null){
-            return;
+        if (skills != null){
+            skills.remove(input);
         }
-
-        skills.remove(input);
     }
-
 
 }
