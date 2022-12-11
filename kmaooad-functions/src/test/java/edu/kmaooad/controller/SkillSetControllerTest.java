@@ -206,12 +206,12 @@ class SkillSetControllerTest {
     @Test
     void addSkillToSkillSet_OK() throws Exception {
         this.mockMvc.perform(
-                put("/skillSet/5/skill/1")));
+                put("/skillSet/5/skill/1"));
     }
 
     @Test
     void removeSkillFromSkillSet_OK() throws Exception {
         this.mockMvc.perform(
-                put("/skillSet/5/skill/1")));
+                put("/skillSet/5/skill/1"));
     }
 }
