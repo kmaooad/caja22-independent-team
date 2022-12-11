@@ -202,4 +202,40 @@ class SkillSetControllerTest {
                 .andDo(print())
                 .andExpect(content().string(containsString("SkillSet with id = 6 not deleted")));
     }
+
+    @Test
+    void addSkillToSkillSet_OK() throws Exception {
+        this.mockMvc.perform(
+                put("/skillSet/5/skill/1"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().string(containsString("Skill with id = 1 added to skillset with id = 5")));
+    }
+
+    @Test
+    void addSkillToSkillSet_BAD() throws Exception {
+        this.mockMvc.perform(
+                put("/skillSet/6/skill/1"))
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andExpect(content().string(containsString("Skill with id = 1 not added to skillset with id = 5")));
+    }
+
+    @Test
+    void removeSkillFromSkillSet_OK() throws Exception {
+        this.mockMvc.perform(
+                put("/skillSet/5/skill/1"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().string(containsString("Skill with id = 1 removed from skillset with id = 5")));
+    }
+
+    @Test
+    void removeSkillFromSkillSet_BAD() throws Exception {
+        this.mockMvc.perform(
+                put("/skillSet/6/skill/1"))
+                .andExpect(status().isBadRequest())
+                .andDo(print())
+                .andExpect(content().string(containsString("Skill with id = 1 not removed from to skillset with id = 5")));
+    }
 }
