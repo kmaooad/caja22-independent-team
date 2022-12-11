@@ -51,4 +51,18 @@ public class SkillSetController {
                 new ResponseEntity<>("SkillSet with id = " + id + " not deleted", HttpStatus.BAD_REQUEST);
     }
 
+    @PutMapping("/{skillSetId}/{skillId}")
+    public ResponseEntity<?> addSkillToSkillSet(@PathVariable String skillSetId, @PathVariable String skillId) {
+        return skillSetService.addSkillToSkillSet(skillSetId, skillId) ?
+                new ResponseEntity<>("Skill with id = " + skillId + " added to skillset with id = " + skillSetId, HttpStatus.OK) :
+                new ResponseEntity<>("Skill with id = " + skillId + " not added to skillset with id = " + skillSetId, HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping("/{skillSetId}/{skillId}")
+    public ResponseEntity<?> removeSkillFromSkillSet(@PathVariable String skillSetId, @PathVariable String skillId) {
+        return skillSetService.removeSkillFromSkillSet(skillSetId, skillId) ?
+                new ResponseEntity<>("Skill with id = " + skillId + " removed from skillset with id = " + skillSetId, HttpStatus.OK) :
+                new ResponseEntity<>("Skill with id = " + skillId + " not removed from to skillset with id = " + skillSetId, HttpStatus.BAD_REQUEST);
+    }
+
 }
