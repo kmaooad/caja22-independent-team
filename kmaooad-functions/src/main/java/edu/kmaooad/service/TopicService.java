@@ -31,16 +31,9 @@ public class TopicService {
         topicRepository.save(topic);
         return Optional.of(topic);
     }
-
     public void deleteTopic(String topicId) {
-        Optional<Topic> topic = topicRepository.findTopicByTopicID(topicId);
-        if (topic.isPresent()) {
-            topicRepository.delete(topic.get());
-        } else {
-            throw new TopicNotFoundException("Topic not found");
-        }
+        topicRepository.deleteById(topicId);
     }
-
     public Optional<Topic> updateTopic(String id, TopicDTO dto) {
         Optional<Topic> topic = topicRepository.findTopicByTopicID(id);
         if (topic.isPresent()) {
@@ -59,7 +52,6 @@ public class TopicService {
         }
 
     }
-
     public Topic findTopicById(String topicId) {
         return topicRepository.findById(topicId)
                 .orElseThrow(() -> new TopicNotFoundException("Skill with id " + topicId + " not found"));

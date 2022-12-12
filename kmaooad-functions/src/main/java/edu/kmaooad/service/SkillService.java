@@ -32,12 +32,7 @@ public class SkillService {
     }
 
     public void deleteSkill(String skillId) {
-        Optional<Skill> skill = skillRepository.findSkillBySkillID(skillId);
-        if (skill.isPresent()) {
-            skillRepository.delete(skill.get());
-        } else {
-            throw new SkillNotFoundException("Skill not found");
-        }
+            skillRepository.deleteById(skillId);
     }
     public Skill updateSkill(String id,SkillDTO dto) {
         Optional<Skill> skill = skillRepository.findSkillBySkillID(id);
