@@ -30,6 +30,7 @@ public class TopicService {
         return Optional.of(topic);
     }
 
+
     public boolean deleteTopic(String topicId) {
         Optional<Topic> topic = topicRepository.findTopicByTopicID(topicId);
         if (topic.isPresent()) {
@@ -59,7 +60,6 @@ public class TopicService {
         }
 
     }
-
     public Topic findTopicById(String topicId) {
         return topicRepository.findById(topicId)
                 .orElseThrow(() -> new TopicNotFoundException("Topic with id " + topicId + " not found"));
