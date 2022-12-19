@@ -6,7 +6,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @EqualsAndHashCode
 public class ProjectDTO {

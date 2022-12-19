@@ -38,8 +38,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Unit test for Function class.
  */
 @FunctionalSpringBootTest
-@AutoConfigureWebTestClient
 @Disabled
+@AutoConfigureWebTestClient
 @TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
 public class FunctionTest {
     @Autowired

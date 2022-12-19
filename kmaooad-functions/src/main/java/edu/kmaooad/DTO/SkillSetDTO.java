@@ -8,7 +8,6 @@ import lombok.Setter;
 import java.util.Set;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @EqualsAndHashCode
 public class SkillSetDTO {

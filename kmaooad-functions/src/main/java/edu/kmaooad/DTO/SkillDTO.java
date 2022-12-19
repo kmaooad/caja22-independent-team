@@ -7,7 +7,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-
 public class SkillDTO {
 
     private String skillId;
