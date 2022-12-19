@@ -74,4 +74,5 @@ class BotRequestMapperTest {
 
         assertEquals(expectedMessage, mapper.deserialize(mappedRequest));
     }
+
 }

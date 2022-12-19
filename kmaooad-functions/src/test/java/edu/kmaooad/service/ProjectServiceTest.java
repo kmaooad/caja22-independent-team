@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -149,6 +150,29 @@ public class ProjectServiceTest {
         assertNull(skillDTO.getParentSkillID());
 
         assertTrue(true);
+    }
+
+    @Test
+    void findById() {
+        when(projectRepository.findById("1")).thenReturn(Optional.of(PROJECT));
+        assertEquals(Optional.of(PROJECT), projectService.findById("1"));
+    }
+
+    @Test
+    void findAll() {
+        when(projectRepository.findAll()).thenReturn(List.of(PROJECT));
+        assertEquals(List.of(PROJECT).size(), projectService.findAll().size());
+        assertEquals(List.of(PROJECT), projectService.findAll());
+    }
+    @Test
+    void exist_Ok() {
+        when(projectRepository.existsById("1")).thenReturn(true);
+        assertTrue(projectService.exist("1"));
+    }
+    @Test
+    void exist_Bad() {
+        when(projectRepository.existsById("2")).thenReturn(false);
+        assertFalse(projectService.exist("2"));
     }
 
     private static Project initTestObject() {

@@ -6,11 +6,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
+@NoArgsConstructor
 public class Skill {
     @NotNull
     @Id
@@ -25,9 +23,4 @@ public class Skill {
         this.skillID = skillID;
         this.skillName = skillName;
     }
-    public Skill(){
-
-    }
-
-
 }

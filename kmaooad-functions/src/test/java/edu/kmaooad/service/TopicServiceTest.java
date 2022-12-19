@@ -6,12 +6,14 @@ import edu.kmaooad.exeptions.TopicNotFoundException;
 import edu.kmaooad.models.SkillSet;
 import edu.kmaooad.models.Topic;
 import edu.kmaooad.repository.TopicRepository;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,6 +48,7 @@ public class TopicServiceTest {
         assertEquals(topic , new Topic("1","Name1",parentTopic.get()));
     }
     @Test
+    @Order(1)
     public void createTopic(){
         Optional<Topic> topic = Optional.of(new Topic("1", "Name1", null));
         Optional<Topic> createdTopic = topicService.createTopic(initTestDto());
@@ -53,17 +56,22 @@ public class TopicServiceTest {
 
     }
     @Test
+    void deleteTopic_Ok() {
+        when(topicRepository.findTopicByTopicID(TOPIC_DTO.getTopicId())).thenReturn(Optional.of(TOPIC));
+        assertTrue(topicService.deleteTopic(TOPIC_DTO.getTopicId()));
+    }
+    @Test
     void deleteTopic() {
+        when(topicRepository.findTopicByTopicID(TOPIC_DTO.getTopicId())).thenReturn(Optional.of(TOPIC));
+        when(topicService.deleteTopic(TOPIC_DTO.getTopicId())).thenReturn(true);
         assertDoesNotThrow(() -> topicService.deleteTopic(TOPIC_DTO.getTopicId()));
     }
-
     @Test
     void deleteTopicException() {
-        doThrow(EXCEPTION).when(topicRepository).deleteById(any());
+        when(topicRepository.findTopicByTopicID(TOPIC_DTO.getTopicId())).thenReturn(Optional.of(TOPIC));
+        when(topicService.deleteTopic(TOPIC_DTO.getTopicId())).thenThrow(EXCEPTION);
 
-        TopicNotFoundException res = assertThrows(EXCEPTION.getClass(), () -> topicService.deleteTopic(TOPIC_DTO.getTopicId()));
-
-        assertSame(EXCEPTION, res);
+        assertThrows(EXCEPTION.getClass(), () -> topicService.deleteTopic(TOPIC_DTO.getTopicId()));
     }
     @Test
     void findTopic() {
@@ -71,6 +79,28 @@ public class TopicServiceTest {
 
         Topic res = assertDoesNotThrow(() -> topicService.findTopicById(TOPIC.getTopicID()));
         assertEquals(TOPIC, res);
+    }
+    @Test
+    void findOptionalTopicById() {
+        when(topicRepository.findById("1")).thenReturn(Optional.of(TOPIC));
+        assertEquals(Optional.of(TOPIC), topicService.findOptionalTopicById("1"));
+    }
+
+    @Test
+    void findAllTopics() {
+        when(topicRepository.findAll()).thenReturn(List.of(TOPIC));
+        assertEquals(List.of(TOPIC).size(), topicService.findAllTopics().size());
+        assertEquals(List.of(TOPIC), topicService.findAllTopics());
+    }
+    @Test
+    void exist_Ok() {
+        when(topicRepository.existsById("1")).thenReturn(true);
+        assertTrue(topicService.exist("1"));
+    }
+    @Test
+    void exist_Bad() {
+        when(topicRepository.existsById("2")).thenReturn(false);
+        assertFalse(topicService.exist("2"));
     }
     private static Topic initTestObject() {
         return new Topic("1", "Name1", null);

@@ -1,5 +1,8 @@
-package edu.kmaooad;
+package edu.kmaooad.service;
 
+import edu.kmaooad.BotRequest;
+import edu.kmaooad.BotResponse;
+import edu.kmaooad.Message;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

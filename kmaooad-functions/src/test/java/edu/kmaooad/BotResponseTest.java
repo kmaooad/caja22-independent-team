@@ -31,7 +31,17 @@ public class BotResponseTest {
     @Test
     void tesHashNotEqualsNull() {
         BotResponse botResponse1 = new BotResponse(botResponse.getMessageId());
-       assertNotNull(botResponse1.hashCode());
+        assertNotNull(botResponse1.hashCode());
     }
 
+    @Test
+    void canEqual() {
+        BotResponse botResponse1 = new BotResponse(botResponse.getMessageId());
+        assertTrue(botResponse1.canEqual(botResponse));
+    }
+
+    @Test
+    void testToString() {
+        System.out.println(botResponse);
+    }
 }

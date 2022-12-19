@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -27,16 +28,18 @@ public class SkillSetService {
         return skillSetRepository.save(mapFromDtoToEntity(dto));
     }
 
-    public void deleteSkillSet(String skillSetId) {
+    public boolean deleteSkillSet(String skillSetId) {
         skillSetRepository.deleteById(skillSetId);
+        return !exist(skillSetId);
     }
 
-    public void updateSkillSet(String id, SkillSetDTO dto) {
+    public boolean updateSkillSet(String id, SkillSetDTO dto) {
         Optional<SkillSet> skillSet = skillSetRepository.findById(id);
         if (skillSet.isPresent()) {
             SkillSet updated = mapFromDtoToEntity(dto);
             updated.setSkillSetID(id);
             skillSetRepository.save(updated);
+            return updated.equals(findSkillSetById(updated.getSkillSetID()));
         } else {
             throw new SkillSetNotFoundException(id);
         }
@@ -80,5 +83,17 @@ public class SkillSetService {
     public SkillSet findSkillSetById(String skillSetId) {
         return skillSetRepository.findById(skillSetId)
                 .orElseThrow(() -> new SkillSetNotFoundException(skillSetId));
+    }
+
+    public Optional<SkillSet> findOptionalSkillSetById(String skillSetId) {
+        return skillSetRepository.findById(skillSetId);
+    }
+
+    public List<SkillSet> findAllSkillSets() {
+        return skillSetRepository.findAll();
+    }
+
+    public boolean exist(String id) {
+        return skillSetRepository.existsById(id);
     }
 }

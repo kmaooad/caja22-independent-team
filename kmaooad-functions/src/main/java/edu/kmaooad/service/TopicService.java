@@ -1,14 +1,14 @@
 package edu.kmaooad.service;
 
 import edu.kmaooad.DTO.TopicDTO;
-import edu.kmaooad.exeptions.SkillSetNotFoundException;
 import edu.kmaooad.exeptions.TopicNotFoundException;
-import edu.kmaooad.models.SkillSet;
+import edu.kmaooad.models.Skill;
 import edu.kmaooad.models.Topic;
 import edu.kmaooad.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,16 +25,22 @@ public class TopicService {
         topic.setTopicID(dto.getTopicId());
         topic.setTopicName(dto.getTopicName());
         Optional<Topic> parentTopic = topicRepository.findTopicByTopicID(dto.getParentTopicId());
-        if (parentTopic.isPresent()) {
-            topic.setParentTopic(parentTopic.get());
-        }
+        parentTopic.ifPresent(topic::setParentTopic);
         topicRepository.save(topic);
         return Optional.of(topic);
     }
-    public void deleteTopic(String topicId) {
-        topicRepository.deleteById(topicId);
+
+    public boolean deleteTopic(String topicId) {
+        Optional<Topic> topic = topicRepository.findTopicByTopicID(topicId);
+        if (topic.isPresent()) {
+            topicRepository.delete(topic.get());
+            return !exist(topic.get().getTopicID());
+        } else {
+            throw new TopicNotFoundException("Topic not found");
+        }
     }
-    public Optional<Topic> updateTopic(String id, TopicDTO dto) {
+
+    public boolean updateTopic(String id, TopicDTO dto) {
         Optional<Topic> topic = topicRepository.findTopicByTopicID(id);
         if (topic.isPresent()) {
             topic.get().setTopicName(dto.getTopicName());
@@ -44,17 +50,28 @@ public class TopicService {
                     throw new TopicNotFoundException("Topic not found");
                 }
             topic.get().setParentTopic(parentTopic.get());
-            topicRepository.save(topic.get());
-            return Optional.of(topic.get());
+            Topic updatedTopic = topic.get();
+            topicRepository.save(updatedTopic);
+            return findTopicById(updatedTopic.getTopicID()).equals(updatedTopic);
         }
         else{
             throw new TopicNotFoundException("Topic not found");
         }
 
     }
+
     public Topic findTopicById(String topicId) {
         return topicRepository.findById(topicId)
-                .orElseThrow(() -> new TopicNotFoundException("Skill with id " + topicId + " not found"));
+                .orElseThrow(() -> new TopicNotFoundException("Topic with id " + topicId + " not found"));
+    }
+    public Optional<Topic> findOptionalTopicById(String TopicId) {
+        return topicRepository.findById(TopicId);
     }
 
+    public List<Topic> findAllTopics() {
+        return topicRepository.findAll();
+    }
+    public boolean exist(String id) {
+        return topicRepository.existsById(id);
+    }
 }

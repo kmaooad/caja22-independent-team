@@ -6,11 +6,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Builder
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
+@NoArgsConstructor
 public class Topic {
     @NotNull
     @Id
@@ -25,9 +23,5 @@ public class Topic {
         this.topicID = topicID;
         this.topicName = topicName;
     }
-    public Topic(){
-
-    }
-
 
 }

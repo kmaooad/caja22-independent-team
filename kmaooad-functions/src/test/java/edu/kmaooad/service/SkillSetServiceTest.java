@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,6 +36,8 @@ public class SkillSetServiceTest {
     private static final SkillSet SKILL_SET = initTestObject();
     private static final SkillSetDTO SKILL_SET_DTO = initTestDto();
     private static final RuntimeException EXCEPTION = new RuntimeException("Just test");
+    private static final SkillNotFoundException SKILL_EXCEPTION = new SkillNotFoundException("Skill not found");
+
 
     @Test
     void saveSkillSet_RepositoryFine_shouldSave() {
@@ -129,6 +132,18 @@ public class SkillSetServiceTest {
     }
 
     @Test
+    void deleteSkillSet_skillAndSkillSetExists_true() {
+        when(skillSetService.exist("1")).thenReturn(false);
+        assertTrue(skillSetService.deleteSkillSet("1"));
+    }
+
+    @Test
+    void deleteSkillSet_skillAndSkillSetExists_false() {
+        when(skillSetService.exist("111")).thenReturn(true);
+        assertFalse(skillSetService.deleteSkillSet("111"));
+    }
+
+    @Test
     void removeSkill_skillServiceThrowsException_shouldRethrow() {
         when(skillService.findSkillById(any())).thenThrow(EXCEPTION);
         assertThrows(EXCEPTION.getClass(), () -> skillSetService.removeSkillFromSkillSet(SKILL_SET_DTO.getSkillSetId(), "12"));
@@ -162,6 +177,28 @@ public class SkillSetServiceTest {
                 () -> skillSetService.findSkillSetById(unexistingId));
 
         assertTrue(res.getMessage().contains(unexistingId));
+    }
+    @Test
+    void findOptionalSkillSetById() {
+        when(skillSetRepository.findById("1")).thenReturn(Optional.of(SKILL_SET));
+        assertEquals(Optional.of(SKILL_SET), skillSetService.findOptionalSkillSetById("1"));
+    }
+
+    @Test
+    void findAllSkillSets() {
+        when(skillSetRepository.findAll()).thenReturn(List.of(SKILL_SET));
+        assertEquals(List.of(SKILL_SET).size(), skillSetService.findAllSkillSets().size());
+        assertEquals(List.of(SKILL_SET), skillSetService.findAllSkillSets());
+    }
+    @Test
+    void exist_Ok() {
+        when(skillSetRepository.existsById("1")).thenReturn(true);
+        assertTrue(skillSetService.exist("1"));
+    }
+    @Test
+    void exist_Bad() {
+        when(skillSetRepository.existsById("2")).thenReturn(false);
+        assertFalse(skillSetService.exist("2"));
     }
     @Test
     void skillNotFoundEx() {

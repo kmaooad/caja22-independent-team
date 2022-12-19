@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -31,23 +32,38 @@ public class ProjectService {
     @Autowired
     private TopicService topicService;
 
+    public boolean exist(String id) {
+        return projectRepository.existsById(id);
+    }
     public Project createProject(ProjectDTO dto) {
         return projectRepository.save(mapFromDtoToEntity(dto));
     }
 
-    public void deleteProject(String projectId) {
+    public boolean deleteProject(String projectId) {
         projectRepository.deleteById(projectId);
+        return projectRepository.existsById(projectId);
     }
 
-    public void updateProject(String id, ProjectDTO dto) {
+    public Optional<Project> findById(String id) {
+        return projectRepository.findById(id);
+    }
+
+    public List<Project> findAll() {
+        return projectRepository.findAll();
+    }
+
+    public boolean updateProject(String id, ProjectDTO dto) {
         Optional<Project> project = projectRepository.findById(id);
+        boolean res;
         if (project.isPresent()) {
             Project updated = mapFromDtoToEntity(dto);
             updated.setProjectID(id);
             projectRepository.save(updated);
+            res = updated.equals(projectRepository.findById(id).orElseThrow(() -> new ProjectNotFoundException(id)));
         } else {
             throw new ProjectNotFoundException(id);
         }
+        return res;
     }
 
     protected Project mapFromDtoToEntity(ProjectDTO dto) {
