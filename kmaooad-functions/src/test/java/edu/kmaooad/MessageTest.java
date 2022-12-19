@@ -54,4 +54,11 @@ class MessageTest {
     void testToStringTest() {
         assertEquals("Message(message_id=4, text=Bot)", message.toString());
     }
+
+    @Test
+    void testConstants(){
+        assertEquals(Constants.BAD_RESPONSE_BODY,"Request body error. Please fix your request body");
+        assertNotNull(Constants.APPLICATION_OBJECT_MAPPER);
+        assertEquals(Constants.REQUEST_WITHOUT_MESSAGE_ID,"Illegal request, message_id not present");
+    }
 }

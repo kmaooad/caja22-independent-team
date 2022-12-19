@@ -4,6 +4,7 @@ import edu.kmaooad.models.Project;
 import edu.kmaooad.models.Skill;
 import edu.kmaooad.models.SkillSet;
 import edu.kmaooad.models.Topic;
+import edu.kmaooad.service.TopicService;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

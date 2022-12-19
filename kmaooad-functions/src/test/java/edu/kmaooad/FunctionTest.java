@@ -1,18 +1,36 @@
 package edu.kmaooad;
 
-import edu.kmaooad.service.MongoService;
+import javax.naming.NameNotFoundException;
 
+import com.mongodb.MongoConfigurationException;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.function.context.test.FunctionalSpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import reactor.core.publisher.Mono;
 
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 /**
@@ -20,7 +38,7 @@ import static org.mockito.Mockito.*;
  */
 @FunctionalSpringBootTest
 @AutoConfigureWebTestClient
-@Disabled
+@TestPropertySource(properties = "spring.mongodb.embedded.version=3.5.5")
 public class FunctionTest {
     @Autowired
     private WebTestClient client;
@@ -35,6 +53,7 @@ public class FunctionTest {
                 .expectStatus()
                 .is5xxServerError();
     }
+
     @Test
     public void testFunctionWithMessageWithoutMessageIdInBody() {
         long id = 7;
@@ -76,4 +95,20 @@ public class FunctionTest {
                 .isEqualTo(expected);
     }
 
+    @Test
+    public void testMongo() {
+        MongoService mongoService1 = new MongoService();
+        int ID = 12345;
+        BotResponse expected = new BotResponse(ID);
+        Message message = new Message(ID, "message");
+        BotRequest botRequest = new BotRequest(ID, message);
+
+        MongoConfigurationException thrown = Assertions.assertThrows(MongoConfigurationException.class, () -> {
+
+            mongoService1.insertOneRequest(botRequest);
+            assertTrue(true);
+
+
+        });
+    }
 }
